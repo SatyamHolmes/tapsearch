@@ -16,3 +16,9 @@
 button {
     margin: 20px;
 }
+
+@media only screen and (max-width: 599px) {
+    .container {
+        width: 80%;
+    }
+}
