@@ -1,3 +1,6 @@
-<textarea rows="50" cols="60" #text="ngModel"></textarea>
-<button (click)="parseParagraphs(text)">Click me</button>
+<textarea rows="25" cols="30" ngModel #text="ngModel"></textarea>
+<button (click)="parseParagraph(text.value)">Click me</button>
+
+<input ngModel #word="ngModel">
+<button (click)="getParagraphs(word.value)">click me</button>
 <router-outlet></router-outlet>

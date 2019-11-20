@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import  PriorityQueue  from 'priorityqueue';
-import { uuidv3 } from "uuid/v3";
-import { uuidv4 } from "uuid/v4";
+import  uuidv3  from "uuid/v3";
+import  uuidv4  from "uuid/v4";
 
 @Component({
   selector: 'app-root',
@@ -50,11 +50,12 @@ export class AppComponent {
   } 
 
   getParagraphs(word: string): void {
+    console.log(this.wordParaMap);
     try {
       word = word.toLowerCase();
       if (this.wordParaMap[word]) {
         const paraids = [];
-        while (!this.wordParaMap[word].length && paraids.length < 10) {
+        while (this.wordParaMap[word].length && paraids.length < 10) {
           paraids.push(this.wordParaMap[word].pop());
         }
 
@@ -70,6 +71,7 @@ export class AppComponent {
       } else {
         this.searchResult = [];
       }
+      console.log(this.searchResult);
     } catch (err) {
       console.log(err);
     }
