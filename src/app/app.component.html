@@ -7,13 +7,13 @@
         </mat-card-header>
         <mat-card-content>
             <button mat-raised-button class="clear" (click)="clear(stepper)">Clear index</button>
-            <mat-horizontal-stepper [linear]="isLinear" #stepper>
+            <mat-horizontal-stepper #stepper>
                 <mat-step>
                     <mat-form-field class="text">
                         <textarea matInput rows="20" cols="50" placeholder="Enter the text" ngModel #text="ngModel" required></textarea>
                     </mat-form-field>
                     <br>
-                    <button mat-raised-button matStepperNext (click)="parseParagraph(text.value, stepper)">Index</button>
+                    <button mat-raised-button matStepperNext (click)="parseParagraph(text.value)">Index</button>
                 </mat-step>
                 <mat-step>
                     <mat-form-field class="text">
