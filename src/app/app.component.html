@@ -1,6 +1,43 @@
-<textarea rows="25" cols="30" ngModel #text="ngModel"></textarea>
-<button (click)="parseParagraph(text.value)">Click me</button>
-
-<input ngModel #word="ngModel">
-<button (click)="getParagraphs(word.value)">click me</button>
+<div fxLayout="row" fxLayout.xs="column">
+    <mat-card class="container">
+        <mat-card-header>
+            <mat-card-title>
+                <div mat-card-avatar>Input</div>
+            </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <button mat-raised-button class="clear" (click)="clear(stepper)">Clear index</button>
+            <mat-horizontal-stepper [linear]="isLinear" #stepper>
+                <mat-step>
+                    <mat-form-field class="text">
+                        <textarea matInput rows="20" cols="50" placeholder="Enter the text" ngModel #text="ngModel" required></textarea>
+                    </mat-form-field>
+                    <br>
+                    <button mat-raised-button matStepperNext (click)="parseParagraph(text.value, stepper)">Index</button>
+                </mat-step>
+                <mat-step>
+                    <mat-form-field class="text">
+                        <input matInput ngModel #word="ngModel" placeholder="Text to search">
+                    </mat-form-field>
+                    <br>
+                    <button mat-raised-button (click)="getParagraphs(word.value)">Search</button>
+                </mat-step>
+            </mat-horizontal-stepper>
+        </mat-card-content>
+    </mat-card>
+    <mat-card class="container">
+        <mat-card-header>
+            <mat-card-title>
+                <div>Search Result</div>
+            </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <mat-card class="paragraphs" *ngFor="let item of searchResult">
+                <mat-card-content>
+                    {{ item }}
+                </mat-card-content>
+            </mat-card>
+        </mat-card-content>
+    </mat-card>
+</div>
 <router-outlet></router-outlet>

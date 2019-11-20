@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import  PriorityQueue  from 'priorityqueue';
 import  uuidv3  from "uuid/v3";
 import  uuidv4  from "uuid/v4";
+import { MatStepper } from '@angular/material/stepper';
 
 @Component({
   selector: 'app-root',
@@ -20,7 +21,6 @@ export class AppComponent {
   }
 
   parseParagraph(text: string): void {
-    console.log(text);
     try {
       text = text.toLowerCase();
       text.split('\n\n').forEach((para) => { // split by newline
@@ -50,7 +50,6 @@ export class AppComponent {
   } 
 
   getParagraphs(word: string): void {
-    console.log(this.wordParaMap);
     try {
       word = word.toLowerCase();
       if (this.wordParaMap[word]) {
@@ -77,9 +76,11 @@ export class AppComponent {
     }
   }
 
-  clear(): void {
+  clear(stepper: MatStepper): void {
     this.paraIdMap = {};
     this.wordParaMap = {};
     this.searchResult = [];
+    document.querySelector('textarea').value = "";
+    stepper.previous();
   }
 }
