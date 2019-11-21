@@ -2,6 +2,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
+import { HighlightPipe } from './highlight.pipe';
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
@@ -15,7 +17,8 @@ import {MatStepperModule} from '@angular/material/stepper';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    HighlightPipe
   ],
   imports: [
     BrowserModule,

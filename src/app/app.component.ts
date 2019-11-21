@@ -9,6 +9,7 @@ import { MatStepper } from '@angular/material/stepper';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
+
 export class AppComponent {
   title = 'tapsearch';
   namespace = uuidv4();
@@ -27,15 +28,17 @@ export class AppComponent {
         const id = uuidv3(para, this.namespace);
         this.paraIdMap[id] = para;
         const wordCount = {}; // to store the frequency of each word in the paragraph
-        para.split('.').forEach((sentence) => {
-          sentence.split(' ').forEach((word) => { // split each para by words and count the occurance of each word
-            if (wordCount[word]) {
-              wordCount[word]++;
-            } else {
-              wordCount[word] = 1;
+          para.split(/[\s\(\)\[\]\{\}]/).forEach((word) => { // split each para by words and count the occurance of each word
+            word = word.replace(/^[^\w]+/, "");
+            word = word.replace(/[^\w]+$/, "");
+            if (word.length != 0) {
+              if (wordCount[word]) {
+                wordCount[word]++;
+              } else {
+                wordCount[word] = 1;
+              }
             }
           });
-        });
         // store the map of word count and id of paragraph in priority queue of hashmap
         Object.entries(wordCount).forEach((elem) => {
           if (!this.wordParaMap[elem[0]]) {
@@ -52,6 +55,10 @@ export class AppComponent {
   getParagraphs(word: string): void {
     try {
       word = word.toLowerCase();
+      word = word.trim();
+      word = word.replace(/^[^\w]+/, "");
+      word = word.replace(/[^\w]+$/, "");
+
       if (this.wordParaMap[word]) {
         const paraids = [];
         while (this.wordParaMap[word].length && paraids.length < 10) {

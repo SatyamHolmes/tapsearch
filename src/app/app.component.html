@@ -13,7 +13,7 @@
                         <textarea matInput rows="20" cols="50" placeholder="Enter the text" ngModel #text="ngModel" required></textarea>
                     </mat-form-field>
                     <br>
-                    <button mat-raised-button matStepperNext (click)="parseParagraph(text.value)">Index</button>
+                    <button mat-raised-button matStepperNext (click)="parseParagraph(text.value)">Create Index</button>
                 </mat-step>
                 <mat-step>
                     <mat-form-field class="text">
@@ -34,7 +34,7 @@
         <mat-card-content>
             <mat-card class="paragraphs" *ngFor="let item of searchResult">
                 <mat-card-content>
-                    {{ item }}
+                    <div innerHTML="{{ item | highlight: word.value}}"></div>
                 </mat-card-content>
             </mat-card>
         </mat-card-content>
