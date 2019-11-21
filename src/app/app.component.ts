@@ -102,26 +102,30 @@ export class AppComponent implements OnInit {
   }
 
   onFileSelect(event: any): void {
-    (<HTMLElement>document.querySelector('.busy')).style.display = "block";
-    this.pdfParserService.convert(event.target.files[0]).subscribe(
-      (res) => {
-        if (!res.IsErroredOnProcessing) {
-          this.enteredText = "";
-          for (const item of res.ParsedResults) {
-            this.enteredText += item.ParsedText.replace(/\.\r\n/g, ".\n\n")
+    if (event.target.files[0]) {
+      (<HTMLElement>document.querySelector('.busy')).style.display = "block";
+      this.pdfParserService.convert(event.target.files[0]).subscribe(
+        (res) => {
+          if (!res.IsErroredOnProcessing) {
+            this.enteredText = "";
+            for (const item of res.ParsedResults) {
+              this.enteredText += item.ParsedText.replace(/\.\r\n/g, ".\n\n")
+            }
+          } else {
+            for(const item of res.ParsedResults) {
+              console.log(item.ErrorMessage);
+            }
           }
-        } else {
-          for(const item of res.ParsedResults) {
-            console.log(item.ErrorMessage);
-          }
+          (<HTMLElement>document.querySelector('.busy')).style.display = "none";
+          event.target.value = "";
+        },
+        (err) => {
+          console.log(err);
+          (<HTMLElement>document.querySelector('.busy')).style.display = "none";
+          event.target.value = "";
         }
-        (<HTMLElement>document.querySelector('.busy')).style.display = "none";
-      },
-      (err) => {
-        console.log(err);
-        (<HTMLElement>document.querySelector('.busy')).style.display = "none";
-      }
-     );
+      );
+    }
   }
 
   generatePdf() {
