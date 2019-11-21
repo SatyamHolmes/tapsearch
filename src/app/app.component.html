@@ -41,6 +41,8 @@
                     <div innerHTML="{{ item | highlight: word.value}}"></div>
                 </mat-card-content>
             </mat-card>
+            <br>
+            <button mat-raised-button (click)="generatePdf()">Download pdf</button>
         </mat-card-content>
     </mat-card>
 </div>

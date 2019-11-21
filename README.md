@@ -1,27 +1,20 @@
 # Tapsearch
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.17.
+A utility app to search all the paragraphs containing a particular word.
 
-## Development server
+## How to use
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+* Enter the text in the left text area or click on **Choose file** button to upload a pdf
+* Click on **Create index**
+* In the next pane that follows enter the text in the input box
+* Click on **search** on button.
+* The result appears in the right pane
+* To download the result as pdf click on **Download pdf** button
+* Click **Clear Index** button clear everything and start from scratch.
 
-## Code scaffolding
+## Important points
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+* Currently pdf parse feature is available for file **less than 1mb** only
+* Pdf parse feature feature supports only max **3 pages** pdfs currenlty.
+* Pdf parse feature maybe temporarily unavaiable sometimes if the server of the service parsing the pdf is down.
+ 

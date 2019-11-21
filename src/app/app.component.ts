@@ -1,9 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import  PriorityQueue  from 'priorityqueue';
 import  uuidv3  from "uuid/v3";
 import  uuidv4  from "uuid/v4";
 import { MatStepper } from '@angular/material/stepper';
 import { PdfParserService } from './pdf-parser.service';
+import pdfMake from 'pdfmake/build/pdfmake';
+import pdfFonts from 'pdfmake/build/vfs_fonts';
 
 @Component({
   selector: 'app-root',
@@ -11,7 +13,7 @@ import { PdfParserService } from './pdf-parser.service';
   styleUrls: ['./app.component.css']
 })
 
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'tapsearch';
   namespace = uuidv4();
   enteredText = "";
@@ -19,7 +21,11 @@ export class AppComponent {
   wordParaMap = {}; // mapping of each word to priority queue containig list of paragraph ids arranged according to word frequency
   searchResult = [];
 
-  constructor(private pdfParserService: PdfParserService) {}
+  constructor(private pdfParserService: PdfParserService) { }
+
+  ngOnInit() {
+    pdfMake.vfs = pdfFonts.pdfMake.vfs;
+  }
 
   private comparator(elem1, elem2) {
     return elem1.freq > elem2.freq ? 1 : elem1.freq < elem2.freq ? -1 : 0;
@@ -116,5 +122,12 @@ export class AppComponent {
         (<HTMLElement>document.querySelector('.busy')).style.display = "none";
       }
      );
+  }
+
+  generatePdf() {
+    if (this.searchResult.length > 0) {
+      const docDef = {content: this.searchResult.join('\n\n')};
+      pdfMake.createPdf(docDef).download();
+    }
   }
 }
