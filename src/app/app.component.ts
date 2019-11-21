@@ -87,7 +87,6 @@ export class AppComponent implements OnInit {
       } else {
         this.searchResult = [];
       }
-      console.log(this.searchResult);
     } catch (err) {
       console.log(err);
     }
@@ -106,16 +105,24 @@ export class AppComponent implements OnInit {
       (<HTMLElement>document.querySelector('.busy')).style.display = "block";
       this.pdfParserService.convert(event.target.files[0]).subscribe(
         (res) => {
-          if (!res.IsErroredOnProcessing) {
-            this.enteredText = "";
-            for (const item of res.ParsedResults) {
-              this.enteredText += item.ParsedText.replace(/\.\r\n/g, ".\n\n")
-            }
-          } else {
-            for(const item of res.ParsedResults) {
-              console.log(item.ErrorMessage);
-            }
+          this.enteredText = "";
+          // print text in the text area
+          for (const item of res.ParsedResults) {
+            let str  = item.ParsedText;
+            str = str.replace(/\.\r\n/g, ".\n\n");
+            str = str.replace(/\r\n[a-z]/g, "~!#~$&").replace(/~!#~\r\n/g, " ");
+            str = str.replace(/\r\n/g, "\n\n");
+            this.enteredText  = str;
           }
+
+          // print error message to console, if any
+          for(const item of res.ParsedResults) {
+            console.log(item.ErrorMessage);
+          }
+          if (res.IsErroredOnProcessing) {
+            console.log(res.ErrorMessage) 
+          }
+
           (<HTMLElement>document.querySelector('.busy')).style.display = "none";
           event.target.value = "";
         },
