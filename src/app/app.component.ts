@@ -3,6 +3,7 @@ import  PriorityQueue  from 'priorityqueue';
 import  uuidv3  from "uuid/v3";
 import  uuidv4  from "uuid/v4";
 import { MatStepper } from '@angular/material/stepper';
+import { PdfParserService } from './pdf-parser.service';
 
 @Component({
   selector: 'app-root',
@@ -13,18 +14,21 @@ import { MatStepper } from '@angular/material/stepper';
 export class AppComponent {
   title = 'tapsearch';
   namespace = uuidv4();
+  enteredText = "";
   paraIdMap = {}; // mapping of each paragraph to their unique id
   wordParaMap = {}; // mapping of each word to priority queue containig list of paragraph ids arranged according to word frequency
   searchResult = [];
+
+  constructor(private pdfParserService: PdfParserService) {}
 
   private comparator(elem1, elem2) {
     return elem1.freq > elem2.freq ? 1 : elem1.freq < elem2.freq ? -1 : 0;
   }
 
-  parseParagraph(text: string): void {
+  parseParagraph(): void {
     try {
-      text = text.toLowerCase();
-      text.split('\n\n').forEach((para) => { // split by newline
+      this.enteredText = this.enteredText.toLowerCase();
+      this.enteredText.split('\n\n').forEach((para) => { // split by newline
         const id = uuidv3(para, this.namespace);
         this.paraIdMap[id] = para;
         const wordCount = {}; // to store the frequency of each word in the paragraph
@@ -87,7 +91,30 @@ export class AppComponent {
     this.paraIdMap = {};
     this.wordParaMap = {};
     this.searchResult = [];
-    document.querySelector('textarea').value = "";
+    this.enteredText = "";
     stepper.previous();
+  }
+
+  onFileSelect(event: any): void {
+    (<HTMLElement>document.querySelector('.busy')).style.display = "block";
+    this.pdfParserService.convert(event.target.files[0]).subscribe(
+      (res) => {
+        if (!res.IsErroredOnProcessing) {
+          this.enteredText = "";
+          for (const item of res.ParsedResults) {
+            this.enteredText += item.ParsedText.replace(/\.\r\n/g, ".\n\n")
+          }
+        } else {
+          for(const item of res.ParsedResults) {
+            console.log(item.ErrorMessage);
+          }
+        }
+        (<HTMLElement>document.querySelector('.busy')).style.display = "none";
+      },
+      (err) => {
+        console.log(err);
+        (<HTMLElement>document.querySelector('.busy')).style.display = "none";
+      }
+     );
   }
 }

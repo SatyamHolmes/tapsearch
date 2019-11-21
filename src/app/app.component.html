@@ -1,3 +1,6 @@
+<div class="busy">
+    <mat-spinner></mat-spinner>
+</div>
 <div fxLayout="row" fxLayout.xs="column">
     <mat-card class="container">
         <mat-card-header>
@@ -10,10 +13,11 @@
             <mat-horizontal-stepper #stepper>
                 <mat-step>
                     <mat-form-field class="text">
-                        <textarea matInput rows="20" cols="50" placeholder="Enter the text" ngModel #text="ngModel" required></textarea>
+                        <textarea matInput rows="20" cols="50" placeholder="Enter the text" [(ngModel)]='enteredText' required></textarea>
                     </mat-form-field>
                     <br>
-                    <button mat-raised-button matStepperNext (click)="parseParagraph(text.value)">Create Index</button>
+                    <button mat-raised-button matStepperNext (click)="parseParagraph()">Create Index</button>
+                    <input type="file" (change)="onFileSelect($event)">
                 </mat-step>
                 <mat-step>
                     <mat-form-field class="text">

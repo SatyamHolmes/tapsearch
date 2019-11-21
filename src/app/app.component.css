@@ -17,6 +17,20 @@ button {
     margin: 20px;
 }
 
+.busy {
+    display: none;
+    position: fixed;
+    background: rgba(0, 0, 0, 0.63);
+    height: 100%;
+    width: 100%;
+    z-index: 1000;
+}
+
+mat-spinner {
+    left: 45vw;
+    top: 45vh;
+}
+
 @media only screen and (max-width: 599px) {
     .container {
         width: 80%;
