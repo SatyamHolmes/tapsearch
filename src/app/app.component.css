@@ -2,6 +2,7 @@
     width: 45%;
     margin: 30px;
     text-align: center;
+    background: beige;
 }
 
 .paragraphs {
@@ -31,8 +32,22 @@ mat-spinner {
     top: 45vh;
 }
 
+mat-horizontal-stepper {
+    background: beige;
+}
+
+textarea, input {
+    background: white;
+}
+
+input.search-box {
+    height: 30px;
+}
+
 @media only screen and (max-width: 599px) {
     .container {
-        width: 80%;
+        width: 80vw;
+        margin: auto;
+        margin-top: 20px;
     }
 }
